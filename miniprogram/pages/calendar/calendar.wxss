@@ -1,0 +1,403 @@
+.container{
+  padding: 32rpx;
+  width: 100vw;
+  box-sizing: border-box;
+  padding-bottom: 60px;
+}
+ 
+/* 日历容器的样式 */
+.calendar-container{
+   width: 100%;
+   border-radius: 24rpx;
+   background-color: #ffffff;
+   box-sizing: border-box;
+}
+
+/* 日历容器的头部样式 */
+.calendar-container .calendar-container-header{
+  padding: 24rpx 24rpx 16rpx;
+  width: 100%;
+  border-bottom: 2rpx solid #cccccc;
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  box-sizing: border-box;
+}
+ .calendar-container-header .date-text{
+  font-weight: 700;
+}
+ 
+/* 切换月份按钮的样式 */
+ .calendar-container-header .btn-box {
+  width: 130rpx;
+  height: 40rpx;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+ 
+ .calendar-container-header .btn-box .btn {
+  width: 40rpx;
+  height: 40rpx;
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  
+}
+ 
+ .calendar-container-header .btn-box .btn.preBtn {
+  transform: rotate(90deg);
+}
+ 
+.calendar-container-header .btn-box .btn.nextBtn {
+  transform: rotate(-90deg);
+}
+ 
+/* 日期的显示样式 */
+.calendar-container-body {
+  margin-top: 16rpx;
+  padding-bottom: 64rpx;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+ 
+.calendar-container-body .calendar-week {
+  display: flex;
+  box-sizing: border-box;
+}
+ 
+.calendar-week .calendar-week-item {
+  width: calc(686rpx  / 7);
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+ 
+/* 日期 */
+.calendar-days {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 28rpx;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+ 
+.calendar-days .days-item {
+  width: calc(686rpx  / 7);
+  height: 68rpx;
+  text-align: center;
+  line-height: 68rpx;
+  box-sizing: border-box;
+}
+.calendar-days .days-item.isNowMonthDay{
+  border-radius: 68rpx;
+background-color: #546de5;
+color: #ffffff;
+}
+.calendar-days .days-item.isNotNowMonthDay{
+  border-radius: 68rpx;
+  background-color: #546ce5b6;
+  color: #ffffff;
+}
+.calendar-days .days-item.isActive{
+  position: relative;
+}
+.calendar-days .days-item.isActive::after{
+  display: block;
+  content: '';
+  border:10rpx  solid #546de5 ;
+  border-top:10rpx  solid transparent ;
+  border-left: 10rpx solid transparent;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.calendar-days .days-item.last-days-item,
+.calendar-days .days-item.next-days-item {
+  color: #ccc;
+}
+
+.mission_container {
+  margin-top: 15px;
+  width: 100%;
+  border-radius: 24rpx;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.mission_name {
+  width: 100px;
+  text-align: center;
+  padding-right: 5px;
+}
+
+.vertical_line {
+  width: 2px;
+  height: 90%;
+}
+
+.mission_content {
+  width: 100px;
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.mission_item {
+  height: 80px;
+  width: 300px;
+  right: 0;
+  top: 0;
+  left: 0;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+}
+
+.background_box {
+  z-index: 0;
+  border-radius: 20px;
+  height: 82px;
+  width: 302px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  position: relative;
+  margin-left: 10px;
+}
+
+.date {
+  margin-left: 10px;
+  font-weight: bolder;
+  width: 100px;
+}
+
+.horizontal_line {
+  height: 1.5px;
+  width: 100px;
+  background-color: black;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* 新的待办 */
+.line {
+  height: 1px;
+  width: 90%;
+  margin: auto;
+  background-color: #546de5;
+  margin-bottom: 10px;
+}
+
+
+.movable-area {
+  pointer-events: none;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.movable-view {
+  pointer-events: auto;
+  height: 50px;
+  width: 150px;
+  background: #546de5;
+  left: 90%;
+  top: 90%;
+  border-radius: 20px;
+  align-content: center;
+  /* center */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add_icon {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+}
+
+/*mask*/
+.drawer_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+}
+
+/*content*/
+.drawer_box {
+  width: 650rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 32%;
+  left: 0;
+  z-index: 1001;
+  background: #FAFAFA;
+  margin: -150px 50rpx 0 50rpx;
+  border-radius: 3px;
+}
+
+.process_box {
+  width: 600rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 55%;
+  left: 0;
+  z-index: 1001;
+  background: #FAFAFA;
+  margin: -150px 50rpx 0 50rpx;
+  border-radius: 3px;
+  padding: 10px;
+  padding-bottom: 0;
+}
+
+.drawer_title {
+  padding-top: 15px;
+  padding-bottom: 5px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.drawer_content {
+  height: 380px;
+  overflow-y: scroll;
+  /*超出父盒子高度可滚动*/
+}
+
+.btn_ok {
+  padding: 10px;
+  font: 16px "microsoft yahei";
+  text-align: center;
+  border-top: 1px solid #E8E8EA;
+  border-left: 1px solid #E8E8EA;
+  color: #3CC51F;
+  width: 50%;
+}
+
+.btn_cancel {
+  padding: 10px;
+  font: 16px "microsoft yahei";
+  text-align: center;
+  border-top: 1px solid #E8E8EA;
+  color: grey;
+  width: 50%;
+}
+
+.top {
+  padding-top: 8px;
+}
+
+.bottom {
+  padding-bottom: 8px;
+}
+
+.title {
+  height: 30px;
+  line-height: 30px;
+  width: 160rpx;
+  text-align: center;
+  display: inline-block;
+  font: 300 28rpx/30px "microsoft yahei";
+}
+
+.input_base {
+  border: 2rpx solid #ccc;
+  padding-left: 10rpx;
+  margin-right: 50rpx;
+}
+
+.down_icon {
+  position: absolute;
+  top: 30%;
+  right: 8%;
+  padding-top: 8px;
+  width: 15px;
+  margin-top: -10px;
+  height: 15px;
+}
+
+.grid {
+  display: -webkit-box;
+  display: box;
+}
+
+.col-0 {
+  -webkit-box-flex: 0;
+  box-flex: 0;
+}
+
+.col-1 {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+}
+
+.input_h30 {
+  height: 30px;
+  line-height: 30px;
+}
+
+.input_h60 {
+  height: 60px;
+}
+
+.input_view {
+  font: 12px "microsoft yahei";
+  background: #fff;
+  color: #000;
+  line-height: 30px;
+}
+
+input {
+  font: 12px "microsoft yahei";
+  background: #fff;
+  color: #000;
+}
+
+.picker {
+  position: relative;
+}
+
+.color_row {
+  width: 40px;
+  height: 30px;
+}
+
+.color_button {
+  width: 40px;
+  height: 30px;
+}
+
+.diy_button {
+  height: 30px;
+  width: 100px;
+  font: 15px "microsoft yahei";
+}

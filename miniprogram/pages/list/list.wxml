@@ -1,0 +1,389 @@
+<!--pages/list/list.wxml-->
+
+<!-- 未登录 -->
+<view wx-if="{{!userInfo}}" style="margin-left: 150px; margin-top: 30px;">请先登录！</view>
+<button type="primary" wx-if="{{!userInfo}}" bindtap="login" style="margin-top: 50px;">登录</button>
+
+<!-- 已经登录 -->
+<view wx-if="{{userInfo}}">
+  <button class="refresh" bind:tap="getData" size="mini">
+    <image class="refresh_icon" src="/images/refresh.png">
+    </image>
+    刷新
+  </button>
+</view>
+
+<view wx-if="{{userInfo}}">
+
+  <!-- 今日任务 -->
+  <view class="horizontal" style="display: flex; align-items: center; margin: 5px;">
+    <view class="horizontal_line"></view>
+    <view class="date">
+      {{date}}
+    </view>
+    <view class="horizontal_line"></view>
+  </view>
+  <view wx:if="{{missions.length === 0 ? true : false }}" style="text-align: center; font-weight: bold;">无待办！</view>
+  <view wx:for="{{missions}}" wx:key="index">
+    <view class="background_box" style="background-color: rgba({{item.red}},{{item.green}},{{item.blue}},{{item.process === 100 ? 0.45 : 0.25}}); width: {{item.process/100*302}}px">
+      <view class="mission_item horizontal" style="border: 1.5px solid #{{item.color}};">
+        <view class="vertical" style="z-index: 10;">
+          <view class="mission_name">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.name }}</text>
+            <text wx:else>{{ item.name }}</text>
+          </view>
+          <view class="mission_name" style="margin-top: 5px; color: #{{item.color}}; font-weight: bold;">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.time }}</text>
+            <text wx:else>{{ item.time }}</text>
+          </view>
+        </view>
+        <view class="vertical_line" style="background-color: #{{item.color}};">
+        </view>
+        <view class="mission_content vertical">
+          <view style="background-color: rgb(209, 209, 209); width: 30px; border-radius: 2px; display: flex; align-items: center; padding-left: 5px;">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.category }}</text>
+            <text wx:else>{{ item.category }}</text>
+          </view>
+          <view wx:if="{{item.notion}}">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">备注：{{ item.notion }}</text>
+            <text wx:else>备注：{{ item.notion }}</text>
+          </view>
+        </view>
+        <view class="vertical">
+          <button size="mini" style="height: 25px; font-size: 12px; background-color: #{{item.color}}; margin-bottom: 5px; display: flex; align-items: center;" bind:tap="modifyMission" data-item="{{item}}" data-statu="open">
+            修改
+          </button>
+          <button size="mini" style="height: 25px; font-size: 12px; background-color: #{{item.color}}; display: flex; align-items: center; width: 70px;" bind:tap="setProcess" data-item="{{item}}" data-statu="open">
+            设置进度
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 明日任务 -->
+  <view class="horizontal" style="display: flex; align-items: center; margin: 5px; margin-top: 10px;">
+    <view class="horizontal_line"></view>
+    <view class="date">
+      {{date_tomorrow}}
+    </view>
+    <view class="horizontal_line"></view>
+  </view>
+  <view wx:if="{{missions_tomorrow.length === 0 ? true : false }}" style="text-align: center; font-weight: bold;">无待办！</view>
+  <view wx:for="{{missions_tomorrow}}" wx:key="index">
+    <view class="background_box" style="background-color: rgba({{item.red}},{{item.green}},{{item.blue}},{{item.process === 100 ? 0.45 : 0.25}}); width: {{item.process/100*302}}px">
+      <view class="mission_item horizontal" style="border: 1.5px solid #{{item.color}};">
+        <view class="vertical" style="z-index: 10;">
+          <view class="mission_name">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.name }}</text>
+            <text wx:else>{{ item.name }}</text>
+          </view>
+          <view class="mission_name" style="margin-top: 5px; color: #{{item.color}}; font-weight: bold;">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.time }}</text>
+            <text wx:else>{{ item.time }}</text>
+          </view>
+        </view>
+        <view class="vertical_line" style="background-color: #{{item.color}};">
+        </view>
+        <view class="mission_content vertical">
+          <view style="background-color: rgb(209, 209, 209); width: 30px; border-radius: 2px; display: flex; align-items: center; padding-left: 5px;">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.category }}</text>
+            <text wx:else>{{ item.category }}</text>
+          </view>
+          <view wx:if="{{item.notion}}">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">备注：{{ item.notion }}</text>
+            <text wx:else>备注：{{ item.notion }}</text>
+          </view>
+        </view>
+        <view class="vertical">
+          <button size="mini" style="height: 25px; font-size: 12px; background-color: #{{item.color}}; margin-bottom: 5px; display: flex; align-items: center;" bind:tap="modifyMission" data-item="{{item}}" data-statu="open">
+            修改
+          </button>
+          <button size="mini" style="height: 25px; font-size: 12px; background-color: #{{item.color}}; display: flex; align-items: center; width: 70px;" bind:tap="setProcess" data-item="{{item}}" data-statu="open">
+            设置进度
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <!-- 后天任务 -->
+  <view class="horizontal" style="display: flex; align-items: center; margin: 5px; margin-top: 10px;">
+    <view class="horizontal_line"></view>
+    <view class="date">
+      {{date_after}}
+    </view>
+    <view class="horizontal_line"></view>
+  </view>
+  <view wx:if="{{missions_after.length === 0 ? true : false }}" style="text-align: center; font-weight: bold;">无待办！</view>
+  <view wx:for="{{missions_after}}" wx:key="index">
+    <view class="background_box" style="background-color: rgba({{item.red}},{{item.green}},{{item.blue}},{{item.process === 100 ? 0.45 : 0.25}}); width: {{item.process/100*302}}px">
+      <view class="mission_item horizontal" style="border: 1.5px solid #{{item.color}};">
+        <view class="vertical" style="z-index: 10;">
+          <view class="mission_name">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.name }}</text>
+            <text wx:else>{{ item.name }}</text>
+          </view>
+          <view class="mission_name" style="margin-top: 5px; color: #{{item.color}}; font-weight: bold;">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.time }}</text>
+            <text wx:else>{{ item.time }}</text>
+          </view>
+        </view>
+        <view class="vertical_line" style="background-color: #{{item.color}};">
+        </view>
+        <view class="mission_content vertical">
+          <view style="background-color: rgb(209, 209, 209); width: 30px; border-radius: 2px; display: flex; align-items: center; padding-left: 5px;">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">{{ item.category }}</text>
+            <text wx:else>{{ item.category }}</text>
+          </view>
+          <view wx:if="{{item.notion}}">
+            <text wx:if="{{item.process === 100}}" style="text-decoration: line-through;">备注：{{ item.notion }}</text>
+            <text wx:else>备注：{{ item.notion }}</text>
+          </view>
+        </view>
+        <view class="vertical">
+          <button size="mini" style="height: 25px; font-size: 12px; background-color: #{{item.color}}; margin-bottom: 5px; display: flex; align-items: center;" bind:tap="modifyMission" data-item="{{item}}" data-statu="open">
+            修改
+          </button>
+          <button size="mini" style="height: 25px; font-size: 12px; background-color: #{{item.color}}; display: flex; align-items: center; width: 70px;" bind:tap="setProcess" data-item="{{item}}" data-statu="open">
+            设置进度
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view style="height: 100px;">
+  </view>
+</view>
+
+<!-- 修改待办 -->
+<view class="drawer_screen" wx:if="{{ModifyStatus}}"></view>
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{ModifyStatus}}">
+
+  <view class="drawer_title">修改待办</view>
+  <view class="line"></view>
+  <view class="drawer_content">
+    <view class="top grid">
+      <label class="title col-0">待办名称</label>
+      <input class="input_base input_h30 col-1" data-name="modifyName" bindinput="inputChange" value="{{modifyName}}"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">日期</label>
+      <picker class="input_base input_h30 col-1 picker" data-name="modifiedDate" mode="date" value="{{modifyDate}}" start="2020-01-01" end="2030-12-31" bindchange="bindDateChange_modify" style="font: 12px 'microsoft yahei'; line-height: 30px;">
+        <view>
+          {{modifyDate}}
+        </view>
+        <image class="down_icon" src="/images/down.png"></image>
+      </picker>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">时间</label>
+      <picker class="input_base input_h30 col-1 picker" data-name="modifyTime" mode="time" value="{{modifyTime}}" start="00:00" end="23:59" bindchange="bindTimeChange_modify" style="font: 12px 'microsoft yahei'; line-height: 30px;">
+        <view>
+          {{modifyTime}}
+        </view>
+        <image class="down_icon" src="/images/down.png"></image>
+      </picker>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">类别</label>
+      <picker class="input_base input_h30 col-1 picker" bindchange="bindPickerChange_modify" value="{{index}}" range="{{category}}" data-name="modifyCategory" style="font: 12px 'microsoft yahei'; line-height: 30px;">
+        <view>
+          {{category[modifyCategory]}}
+        </view>
+        <image class="down_icon" src="/images/down.png"></image>
+      </picker>
+
+    </view>
+    <view class="top grid">
+      <view class="top grid">
+        <label class="title col-0">主题色</label>
+
+        <view>
+          <!-- 第一排按钮 -->
+          <view class="color_row col-1" style="display: flex;">
+            <button class="color_button" data-statu="lightred" bind:tap="diy_input_modify">
+              <image src="/images/lightred.png"></image>
+            </button>
+            <button class="color_button" data-statu="lightblue" bind:tap="diy_input_modify">
+              <image src="/images/lightblue.png"></image>
+            </button>
+            <button class="color_button" data-statu="lightgreen" bind:tap="diy_input_modify">
+              <image src="/images/lightgreen.png"></image>
+            </button>
+          </view>
+
+
+          <!-- 第二排按钮 -->
+          <view class="color_row" style="display: flex;">
+            <button class="color_button" data-statu="yellow" bind:tap="diy_input_modify">
+              <image src="/images/yellow.png"></image>
+            </button>
+            <button class="color_button" data-statu="purpleblue" bind:tap="diy_input_modify">
+              <image src="/images/purpleblue.png"></image>
+            </button>
+            <button class="color_button" data-statu="grey" bind:tap="diy_input_modify">
+              <image src="/images/grey.png"></image>
+            </button>
+          </view>
+
+          <view style="margin-top: 10px; margin-left: 5px;">
+            <button class="diy_button" data-statu="open_diy" bind:tap="diy_input_modify">其他自定义颜色</button>
+          </view>
+          <input wx:if="{{show_diy_input_modify}}" class="input_base input_h30 col-1" style="margin-bottom: 8px;" placeholder="请输入十六进制颜色码" data-name="modifiedColor" bindinput="inputChange" value="{{modify_diycolor}}">{{modify_diycolor}}</input>
+          <label wx:if="{{!show_diy_input_modify}}" class="title">已选：{{selected_modify}}</label>
+        </view>
+      </view>
+    </view>
+
+    <view class="grid">
+      <label class="title col-0">备注</label>
+      <input class="input_base input_h30 col-1" data-name="modifyNotion" bindinput="inputChange" value="{{modifyNotion}}">
+      {{modifyNotion}}
+      </input>
+    </view>
+  </view>
+  <view class="bottom" style="display: flex; align-items: center; margin-top: -20px;">
+    <button type="warn" size="mini" style="border: 1px solid red;" bind:tap="deleteList"> 删除该待办
+    </button>
+  </view>
+  <view class="horizontal">
+    <view class="btn_cancel" bindtap="cancelAction_modify">取消</view>
+    <view class="btn_ok" bindtap="submitModify" data-statu="close">确定</view>
+  </view>
+</view>
+
+<!-- 修改进度 -->
+<view class="drawer_screen" wx:if="{{setProcess}}"></view>
+<view animation="{{animationData}}" class="process_box" wx:if="{{setProcess}}">
+
+  <view class="drawer_title">设置进度</view>
+  <view class="line"></view>
+
+  <view class="page-section page-section-spacing">
+    <view style=" margin-top: 20px; margin-bottom: 20px;">
+      <text style="margin-left: 20px;">待办完成进度：</text>
+      <text class="info">{{duration}}%</text>
+    </view>
+    <slider style="margin-bottom: 20px;" bindchange="durationChange" value="{{duration}}" min="0" max="100" />
+  </view>
+
+
+  <view class="horizontal">
+    <view class="btn_cancel" bindtap="cancel_setProcess">取消</view>
+    <view class="btn_ok" bindtap="submitProcess" data-statu="close">确定</view>
+  </view>
+</view>
+
+
+<!-- 新的待办 -->
+<movable-area class="movable-area" wx-if="{{userInfo}}">
+  <movable-view class="movable-view" direction="all" style="position: absolute; left: 715rpx; top: 1102rpx">
+    <button bind:tap="powerDrawer" data-statu="open" style="height: 100%; width: 100%; border-radius:20px;">
+      <view style="display: flex;">
+        <view style="width: 20%; margin-top: 2px;">
+          <image class="add_icon" src="/images/add.png">
+          </image>
+        </view>
+        <view style="width: 80%; margin-top: 5px;">
+          <text style="color: white; font-weight:600; font-size: large; margin-left: 5px;">添加待办</text>
+        </view>
+      </view>
+    </button>
+  </movable-view>
+</movable-area>
+
+
+<!--使用animation属性指定需要执行的动画-->
+<view class="drawer_screen" wx:if="{{showModalStatus}}"></view>
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+
+  <view class="drawer_title">新的待办</view>
+  <view class="line"></view>
+  <view class="drawer_content">
+    <view class="top grid">
+      <label class="title col-0">待办名称</label>
+      <input class="input_base input_h30 col-1" data-name="todoName" bindinput="inputChange"></input>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">日期</label>
+      <picker class="input_base input_h30 col-1 picker" data-name="todoDate" mode="date" value="{{todoDate}}" start="2020-01-01" end="2030-12-31" bindchange="bindDateChange" style="font: 12px 'microsoft yahei'; line-height: 30px;">
+        <view>
+          {{todoDate}}
+        </view>
+        <image class="down_icon" src="/images/down.png"></image>
+      </picker>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">时间</label>
+      <picker class="input_base input_h30 col-1 picker" data-name="todoTime" mode="time" value="{{todoTime}}" start="00:00" end="23:59" bindchange="bindTimeChange" style="font: 12px 'microsoft yahei'; line-height: 30px;">
+        <view>
+          {{todoTime}}
+        </view>
+        <image class="down_icon" src="/images/down.png"></image>
+      </picker>
+    </view>
+    <view class="top grid">
+      <label class="title col-0">类别</label>
+      <picker class="input_base input_h30 col-1 picker" bindchange="bindPickerChange" value="{{index}}" range="{{category}}" data-name="todoCategory" style="font: 12px 'microsoft yahei'; line-height: 30px;">
+        <view>
+          {{category[currentCategory]}}
+        </view>
+        <image class="down_icon" src="/images/down.png"></image>
+      </picker>
+
+    </view>
+    <view class="top bottom grid">
+      <view class="top bottom grid">
+        <label class="title col-0">主题色</label>
+
+        <view>
+          <!-- 第一排按钮 -->
+          <view class="color_row col-1" style="display: flex;">
+            <button class="color_button" data-statu="lightred" bind:tap="diy_input">
+              <image src="/images/lightred.png"></image>
+            </button>
+            <button class="color_button" data-statu="lightblue" bind:tap="diy_input">
+              <image src="/images/lightblue.png"></image>
+            </button>
+            <button class="color_button" data-statu="lightgreen" bind:tap="diy_input">
+              <image src="/images/lightgreen.png"></image>
+            </button>
+          </view>
+
+
+          <!-- 第二排按钮 -->
+          <view class="color_row" style="display: flex;">
+            <button class="color_button" data-statu="yellow" bind:tap="diy_input">
+              <image src="/images/yellow.png"></image>
+            </button>
+            <button class="color_button" data-statu="purpleblue" bind:tap="diy_input">
+              <image src="/images/purpleblue.png"></image>
+            </button>
+            <button class="color_button" data-statu="grey" bind:tap="diy_input">
+              <image src="/images/grey.png"></image>
+            </button>
+          </view>
+
+          <view style="margin-top: 10px; margin-left: 5px;">
+            <button class="diy_button" data-statu="open_diy" bind:tap="diy_input">其他自定义颜色</button>
+          </view>
+          <input wx:if="{{show_diy_input_status}}" class="input_base input_h30 col-1" name="diy_digit" placeholder="请输入十六进制颜色码" data-name="todoColor" bindinput="inputChange"></input>
+          <label wx:if="{{!show_diy_input_status}}" class="title" name="diy_digit">已选：{{selected_color}}</label>
+        </view>
+      </view>
+    </view>
+
+    <view class="top bottom grid">
+      <label class="title col-0">备注</label>
+      <input class="input_base input_h30 col-1" data-name="todoNotion" bindinput="inputChange"></input>
+    </view>
+  </view>
+
+  <view class="horizontal">
+    <view class="btn_cancel" bindtap="cancelAction">取消</view>
+    <view class="btn_ok" bindtap="addmission" data-statu="close">确定</view>
+  </view>
+
+</view>
