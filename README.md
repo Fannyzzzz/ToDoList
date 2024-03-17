@@ -41,7 +41,7 @@
 
 ### 任务列表页面（list）
 
-<img src="C:\Users\32172\AppData\Roaming\Typora\typora-user-images\image-20240316113755213.png" alt="image-20240316113755213" style="zoom: 50%;" />
+<img src=".\demo\5.png" alt="demo" style="zoom: 50%;" />
 
 - **页面布局**：
 
