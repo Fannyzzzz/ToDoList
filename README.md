@@ -41,7 +41,9 @@
 
 ### 任务列表页面（list）
 
-<img src="C:\Users\32172\AppData\Roaming\Typora\typora-user-images\image-20240316113755213.png" alt="image-20240316113755213" style="zoom: 50%;" />
+<div style="text-align:center;">
+    <img src=".\demo\5.png" alt="demo" style="zoom: 30%;" />
+</div>
 
 - **页面布局**：
 
@@ -58,17 +60,25 @@
 - **交互行为**：
 
   - 点击**添加待办**按钮：弹出添加任务模态框，以新增任务。默认日期及时间为当前日期及时间。
-   <img src="C:\Users\32172\AppData\Roaming\Typora\typora-user-images\image-20240316160823153.png" alt="image-20240316160823153" style="zoom: 50%;" />
+   <div style="text-align:center;">
+    <img src=".\demo\1.png" alt="demo" style="zoom: 30%;" />
+</div>
 
   - 点击**修改待办**按钮：弹出修改任务模态框，用户对待办进行自主修改，也可以删除该待办。
-    <img src="C:\Users\32172\AppData\Roaming\Typora\typora-user-images\image-20240316160943228.png" alt="image-20240316160943228" style="zoom:50%;" />
+    <div style="text-align:center;">
+    <img src=".\demo\2.png" alt="demo" style="zoom: 30%;" />
+</div>
 
   - 点击**设置进度**按钮：弹出设置进度模态框，用户对待办进度进行自主修改。
-    <img src="C:\Users\32172\AppData\Roaming\Typora\typora-user-images\image-20240316161050316.png" alt="image-20240316161050316" style="zoom:50%;" />
+    <div style="text-align:center;">
+    <img src=".\demo\3.png" alt="demo" style="zoom: 30%;" />
+</div>
 
 ### 日历页面（calendar）
 
-<img src="C:\Users\32172\AppData\Roaming\Typora\typora-user-images\image-20240316161234931.png" alt="image-20240316161234931" style="zoom:50%;" />
+<div style="text-align:center;">
+    <img src=".\demo\4.png" alt="demo" style="zoom: 30%;" />
+</div>
 
 - **页面布局**：
   - 页面顶部：显示当前展示的月份和前进、后退按钮。
