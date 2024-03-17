@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/list/list",
+    "pages/calendar/calendar",
+    "pages/login/login"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "ToDo List",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#546de5",
+    "borderStyle": "black",
+    "list": [{
+        "pagePath": "pages/list/list",
+        "iconPath": "/images/list.png",
+        "selectedIconPath": "/images/list_active.png",
+        "text": "待办清单"
+      },
+      {
+        "pagePath": "pages/calendar/calendar",
+        "iconPath": "/images/calendar.png",
+        "selectedIconPath": "/images/calendar_active.png",
+        "text": "日历"
+      }
+    ]
+  }
+}
